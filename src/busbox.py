@@ -33,8 +33,10 @@ for b in bus_data['Siri']['ServiceDelivery']['StopMonitoringDelivery'][0]['Monit
   try:
     ugly_time = b['MonitoredVehicleJourney']['MonitoredCall']['ExpectedArrivalTime']
     arriv_time = datetime.strptime(ugly_time[0:19], '%Y-%m-%dT%H:%M:%S')
+    delta_time = arriv_time - datetime.now()
+    time_wait = int(round((delta_time.total_seconds() / 60)))
     distance = b['MonitoredVehicleJourney']['MonitoredCall']['Extensions']['Distances']['PresentableDistance']
-    print "%s arriving approximately %s" % (distance, arriv_time)
+    print "%s arriving in approx %s minutes" % (distance, time_wait)
   except:
     distance = b['MonitoredVehicleJourney']['MonitoredCall']['Extensions']['Distances']['PresentableDistance']
     print "%s (no ETA available)" % distance
