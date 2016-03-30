@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 import argparse
 import requests
 import json
@@ -19,7 +21,7 @@ args = parser.parse_args()
 keys = {'key' : API_KEY, 'OperatorRef' : 'MTA', 'MonitoringRef' : args.stop}
 
 bus_data_raw = requests.get(url, params=keys)
-bus_data = json.loads(bus_data_raw.text)
+bus_data = bus_data_raw.json()
 
 stop_name = bus_data['Siri']['ServiceDelivery']['StopMonitoringDelivery'][0]['MonitoredStopVisit'][0]['MonitoredVehicleJourney']['MonitoredCall']['StopPointName']
 dest_name = bus_data['Siri']['ServiceDelivery']['StopMonitoringDelivery'][0]['MonitoredStopVisit'][0]['MonitoredVehicleJourney']['DestinationName']
