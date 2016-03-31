@@ -1,2 +1,4 @@
 API_KEY
 myconfig.py*
+venv
+__pycache__/

@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 import argparse
 import requests
@@ -27,7 +27,7 @@ stop_name = bus_data['Siri']['ServiceDelivery']['StopMonitoringDelivery'][0]['Mo
 dest_name = bus_data['Siri']['ServiceDelivery']['StopMonitoringDelivery'][0]['MonitoredStopVisit'][0]['MonitoredVehicleJourney']['DestinationName']
 results = len(bus_data['Siri']['ServiceDelivery']['StopMonitoringDelivery'][0]['MonitoredStopVisit']) 
 
-print "There are %d busses en route to stop %s heading to %s:" % (results, stop_name, dest_name)
+print("There are %d busses en route to stop %s heading to %s:" % (results, stop_name, dest_name))
 
 for b in bus_data['Siri']['ServiceDelivery']['StopMonitoringDelivery'][0]['MonitoredStopVisit']:
   try:
@@ -36,8 +36,8 @@ for b in bus_data['Siri']['ServiceDelivery']['StopMonitoringDelivery'][0]['Monit
     delta_time = arriv_time - datetime.now()
     time_wait = int(round((delta_time.total_seconds() / 60)))
     distance = b['MonitoredVehicleJourney']['MonitoredCall']['Extensions']['Distances']['PresentableDistance']
-    print "%s arriving in approx %s minutes" % (distance, time_wait)
+    print("%s arriving in approx %s minutes" % distance, time_wait)
   except:
     distance = b['MonitoredVehicleJourney']['MonitoredCall']['Extensions']['Distances']['PresentableDistance']
-    print "%s (no ETA available)" % distance
+    print("%s (no ETA available)" % distance)
 
