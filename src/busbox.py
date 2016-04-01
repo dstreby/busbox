@@ -42,6 +42,7 @@ parser.add_argument('-s',
     default = '404137',
     help = 'The bus stop ID code')
 parser.add_argument('-c',
+    dest = 'countdown',
     action = 'store_true',
     help = 'Countdown to next bus')
 
@@ -52,13 +53,19 @@ args = parser.parse_args()
 #############################
 stop_num = args.stop
 
-if args.c:
+if args.countdown:
   try:
+    bus_time = Bus_time(stop_num)
+    bus_info = Bus_info(bus_time.bus_data['Siri']['ServiceDelivery']['StopMonitoringDelivery'][0]['MonitoredStopVisit'][0])
+    print("Next bus for stop %s heading to %s:" % (bus_time.stop_name, bus_time.dest_name))
     while True:
+      if bus_info.time_wait == "UNKNOWN":
+        print("%s" % (bus_info.distance), end='\r')
+      else:
+        print("%s minutes" % (bus_info.time_wait), end='\r')
+      time.sleep(20)
       bus_time = Bus_time(stop_num)
       bus_info = Bus_info(bus_time.bus_data['Siri']['ServiceDelivery']['StopMonitoringDelivery'][0]['MonitoredStopVisit'][0])
-      print("%s arriving in approx %s minutes" % (bus_info.distance, bus_info.time_wait), end='\r')
-      time.sleep(60)
   except KeyboardInterrupt:
     print("\nExiting")
 else:
